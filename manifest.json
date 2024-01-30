@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Better Afreeca",
+  "version": "0.0.0",
+  "description": "Make AfreecaTV UI better",
+  "icons": {
+    "48": "icons/better-afreecatv.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.afreecatv.com/*"],
+      "js": ["src/index.js"]
+    }
+  ],
+  "web_accessible_resources": [{
+    "matches": ["*://*.afreecatv.com/*"],
+    "resources": ["src/embedded.js"]
+  }]
+}
