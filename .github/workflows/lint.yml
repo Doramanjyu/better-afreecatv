@@ -1,0 +1,35 @@
+name: ci
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable corepack
+        run: corepack enable pnpm
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - name: Install deps
+        run: pnpm install
+      - name: Lint
+        run: pnpm lint
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable corepack
+        run: corepack enable pnpm
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - name: Install deps
+        run: pnpm install
+      - name: Apply format
+        run: pnpm fmt
+      - name: Check diff
+        run: git diff --exit-code

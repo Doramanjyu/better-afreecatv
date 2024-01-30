@@ -1,0 +1,17 @@
+{
+  "name": "better-afreecatv",
+  "version": "0.0.0",
+  "description": "Make AfreecaTV UX better",
+  "main": "src/index.js",
+  "author": "Doramanjyu",
+  "license": "Apache-2.0",
+  "scripts": {
+    "fmt": "prettier --write './src/**/*.js' '*.js'",
+    "lint": "eslint './src/**/*.js'",
+    "fix": "eslint --fix './src/**/*.js'"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4"
+  }
+}
