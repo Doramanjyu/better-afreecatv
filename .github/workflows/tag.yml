@@ -32,7 +32,7 @@ jobs:
             eslint.config.js \
             package.json \
             pnpm-lock.yaml
-          zip better-afreecatv-${{ steps.tag.outputs.tag }}.zip *
+          zip -r better-afreecatv-${{ steps.tag.outputs.tag }}.zip *
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
             better-afreecatv-${{ steps.tag.outputs.tag }}.zip
