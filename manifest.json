@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Better Afreeca",
+  "name": "Better AfreecaTV",
   "version": "0.0.3",
-  "description": "Make AfreecaTV UI better",
+  "description": "Make AfreecaTV UX better",
+  "homepage_url": "https://github.com/Doramanjyu/better-afreecatv",
   "icons": {
     "32": "icons/better-afreecatv32.png",
     "48": "icons/better-afreecatv48.png",
