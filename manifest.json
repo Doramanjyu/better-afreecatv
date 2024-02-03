@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Better Afreeca",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "Make AfreecaTV UI better",
   "icons": {
     "32": "icons/better-afreecatv32.png",
@@ -10,12 +10,22 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.afreecatv.com/*"],
-      "js": ["src/index.js"]
+      "matches": [
+        "*://*.afreecatv.com/*"
+      ],
+      "js": [
+        "src/index.js"
+      ]
     }
   ],
-  "web_accessible_resources": [{
-    "matches": ["*://*.afreecatv.com/*"],
-    "resources": ["src/embedded.js"]
-  }]
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "*://*.afreecatv.com/*"
+      ],
+      "resources": [
+        "src/embedded.js"
+      ]
+    }
+  ]
 }
