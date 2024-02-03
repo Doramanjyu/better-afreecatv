@@ -47,9 +47,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat package.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee package.json
+
+          git config user.name Doramanjyu
+          git config user.email '24859285+Doramanjyu@users.noreply.github.com'
+
           git checkout -b bump-to-${{ steps.version.outputs.version }}
           git add package.json
           git commit -m 'Bump to v${{ steps.version.outputs.version }}'
+
           git push origin bump-to-${{ steps.version.outputs.version }}
           gh pr create \
             --title 'Bump to v${{ steps.version.outputs.version }}' \
