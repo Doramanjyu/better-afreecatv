@@ -1,11 +1,19 @@
 ;(() => {
-  const writeArea = document.getElementById('write_area')
-  if (!writeArea) {
-    console.debug('write_area not found')
-    return
-  }
-  writeArea.addEventListener('focus', () => {
-    console.debug('clearing write_area paste blocker')
-    $('#write_area').off('cut copy paste')
+  const pasteAllowIds = [
+    'write_area',
+    'auqa_voice_textarea',
+    'adb_auqa_voice_textarea',
+  ]
+
+  pasteAllowIds.forEach((id) => {
+    const el = document.getElementById(id)
+    if (!el) {
+      console.debug(`${id} not found`)
+      return
+    }
+    el.addEventListener('focus', () => {
+      console.debug(`clearing ${id} paste blocker`)
+      $(`#${id}`).off('cut copy paste')
+    })
   })
 })()
