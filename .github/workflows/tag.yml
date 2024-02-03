@@ -32,7 +32,15 @@ jobs:
             eslint.config.js \
             package.json \
             pnpm-lock.yaml
-          zip -r better-afreecatv-${{ steps.tag.outputs.tag }}.zip *
+
+          zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip *
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
-            better-afreecatv-${{ steps.tag.outputs.tag }}.zip
+            better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip
+          rm *.zip
+
+          cat manifest.json | jq 'del(.browser_specific_settings)' | tee manifest.json
+          zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-chrome.zip *
+          gh release upload \
+            ${{ steps.tag.outputs.tag }} \
+            better-afreecatv-${{ steps.tag.outputs.tag }}-chrome.zip
