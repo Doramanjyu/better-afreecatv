@@ -10,7 +10,7 @@ if (oldScript) {
 
 const runtime = chrome?.runtime || browser?.runtime
 const script = document.createElement('script')
-script.src = runtime.getURL('src/embedded.js')
+script.src = runtime.getURL('src/play.embedded.js')
 script.id = scriptId
 
 const head = document.head || document.documentElement
