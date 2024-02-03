@@ -27,5 +27,10 @@
         "src/embedded.js"
       ]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{6a2af241-0567-479a-8d64-7e01c63bb14e}"
+    }
+  }
 }
