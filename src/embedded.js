@@ -1,9 +1,5 @@
 ;(() => {
-  const pasteAllowIds = [
-    'write_area',
-    'auqa_voice_textarea',
-    'adb_auqa_voice_textarea',
-  ]
+  const pasteAllowIds = ['write_area', 'auqa_voice_textarea']
 
   pasteAllowIds.forEach((id) => {
     const el = document.getElementById(id)
