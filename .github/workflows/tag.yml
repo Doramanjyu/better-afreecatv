@@ -1,0 +1,21 @@
+name: tag-release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.head_commit.message, 'Bump to v')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag
+        env:
+          TITLE: ${{ github.event.issue.title }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag=$(echo ${TITLE} | cut -f 3 -d " ")
+          gh release create \
+            ${tag} \
+            --generate-notes
