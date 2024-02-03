@@ -8,6 +8,8 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     if: startsWith(github.event.head_commit.message, 'Bump to v')
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Tag
