@@ -49,13 +49,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          cat manifest.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee manifest.json
           cat package.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee package.json
 
           git config user.name Doramanjyu
           git config user.email '24859285+Doramanjyu@users.noreply.github.com'
 
           git checkout -b bump-to-${{ steps.version.outputs.version }}
-          git add package.json
+          git add \
+            manifest.json \
+            package.json
           git commit -m 'Bump to v${{ steps.version.outputs.version }}'
 
           git push origin bump-to-${{ steps.version.outputs.version }}
