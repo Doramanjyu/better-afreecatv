@@ -21,18 +21,18 @@
   })
 
   const script = document.getElementById(scriptId)
-  const observer = new MutationObserver(mrs => {
-    mrs.forEach(mr => {
+  const observer = new MutationObserver((mrs) => {
+    mrs.forEach((mr) => {
       if (!mr?.removedNodes) {
         return
       }
-      mr.removedNodes.forEach(n => {
+      mr.removedNodes.forEach((n) => {
         if (n.id === script.id) {
           observer.disconnect()
-          cleanups.forEach(f => f())
+          cleanups.forEach((f) => f())
         }
       })
     })
   })
-  observer.observe(script.parentElement, {childList: true})
+  observer.observe(script.parentElement, { childList: true })
 })()
