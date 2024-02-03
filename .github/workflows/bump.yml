@@ -1,0 +1,59 @@
+name: version-bump
+on:
+  issues:
+    types: [opened, reopened, edited]
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, 'Bump ')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determine new version
+        id: version
+        env:
+          TITLE: ${{ github.event.issue.title }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          arg=$(echo ${TITLE} | cut -f 2 -d " ")
+
+          latest=$(gh release view --json tagName | jq -r .tagName)
+          vmajor=$(echo ${latest#v} | cut -f 1 -d .)
+          vminor=$(echo ${latest#v} | cut -f 2 -d .)
+          vpatch=$(echo ${latest#v} | cut -f 3 -d .)
+
+          case ${arg} in
+            major)
+              vmajor=$((vmajor + 1))
+              vminor=0
+              vpatch=0
+              ;;
+            minor)
+              vminor=$((vminor + 1))
+              vpatch=0
+              ;;
+            patch)
+              vpatch=$((vpatch + 1))
+              ;;
+            *)
+              echo "Unknown bump type: ${arg}" >&2
+              exit 1
+              ;;
+          esac
+
+          echo "version=${vmajor}.${vminor}.${vpatch}" >> ${GITHUB_OUTPUT}
+      - name: Bump version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat package.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee package.json
+          git checkout -b bump-to-${{ steps.version.outputs.version }}
+          git add package.json
+          git commit -m 'Bump to v${{ steps.version.outputs.version }}'
+          git push origin bump-to-${{ steps.version.outputs.version }}
+          gh pr create \
+            --title 'Bump to v${{ steps.version.outputs.version }}' \
+            --body 'Close #${{ github.event.issue.number }}' \
+            --base main \
+            --head bump-to-${{ steps.version.outputs.version }} \
+            --reviewer ${{ github.actor }}
