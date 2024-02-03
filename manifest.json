@@ -24,7 +24,8 @@
         "https://play.afreecatv.com/*"
       ],
       "resources": [
-        "src/play.embedded.js"
+        "src/play.embedded.js",
+        "src/play.css"
       ]
     }
   ],
