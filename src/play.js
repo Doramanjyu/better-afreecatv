@@ -22,8 +22,8 @@ script.id = scriptId
 
 const style = document.createElement('link')
 style.href = runtime.getURL('src/play.css')
-style.rel = "stylesheet"
-style.type = "text/css"
+style.rel = 'stylesheet'
+style.type = 'text/css'
 style.id = styleId
 
 const head = document.head || document.documentElement
