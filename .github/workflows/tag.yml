@@ -13,12 +13,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Tag
+        id: tag
         env:
           MESSAGE: ${{ github.event.head_commit.message }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag=$(echo ${MESSAGE} | cut -f 3 -d " ")
+          echo "tag=${tag}" >> ${GITHUB_OUTPUT}
           echo Tagging ${tag}
           gh release create \
             ${tag} \
             --generate-notes
+      - name: Upload addon zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          rm -f \
+            eslint.config.js \
+            package.json \
+            pnpm-lock.yaml
+          zip better-afreecatv-${{ steps.tag.outputs.tag }}.zip *
+          gh release upload \
+            ${{ steps.tag.outputs.tag }} \
+            better-afreecatv-${{ steps.tag.outputs.tag }}.zip
