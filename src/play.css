@@ -4,5 +4,5 @@
 
 div#chatting_area {
   /* Fix stream info expand button overlapping emoticon area on portrait mode */
-  z-index: 200;
+  z-index: 101 !important;
 }
