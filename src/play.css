@@ -1,3 +1,8 @@
 .bg_dark {
   background-color: rgba(0,0,0,0.2);
 }
+
+div#chatting_area {
+  /* Fix stream info expand button overlapping emoticon area on portrait mode */
+  z-index: 200;
+}
