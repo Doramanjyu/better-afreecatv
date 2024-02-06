@@ -1,4 +1,4 @@
-;(() => {
+;(async () => {
   const scriptId = 'better_afreeca_embedded_script'
   const pasteAllowIds = ['write_area', 'auqa_voice_textarea']
 

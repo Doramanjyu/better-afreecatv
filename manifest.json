@@ -25,11 +25,21 @@
         "https://play.afreecatv.com/*"
       ],
       "resources": [
-        "src/play.embedded.js",
-        "src/play.css"
+        "src/notification.worker.js",
+        "src/play.css",
+        "src/play.embedded.js"
       ]
     }
   ],
+  "permissions": [
+    "storage"
+  ],
+  "optional_permissions": [
+    "notifications"
+  ],
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; script-src 'self' moz-extension://bbcf2970-d050-4789-b88b-fefbb1a7b5b4/*"
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "{6a2af241-0567-479a-8d64-7e01c63bb14e}"

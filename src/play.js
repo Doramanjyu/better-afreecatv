@@ -29,3 +29,34 @@ style.id = styleId
 const head = document.head || document.documentElement
 head.appendChild(script)
 head.appendChild(style)
+
+if (Notification.permission !== 'granted') {
+  document.addEventListener('click', 
+    () => Notification.requestPermission(),
+    {once: true},
+  )
+}
+
+const registerWorker = async () => {
+  try {
+    const registration = await navigator.serviceWorker.register(
+      runtime.getURL('src/notification.worker.js'),
+      {
+        scope: "/",
+      },
+    )
+    if (registration.installing) {
+      console.log("Service worker installing")
+    } else if (registration.waiting) {
+      console.log("Service worker installed")
+    } else if (registration.active) {
+      console.log("Service worker active")
+    }
+    registration.showNotification('Sample', {
+      body: 'test',
+    })
+  } catch (error) {
+    console.error(`Registration failed with ${error}`)
+  }
+}
+registerWorker()
