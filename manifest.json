@@ -37,10 +37,11 @@
     "webRequest"
   ],
   "host_permissions": [
-    "*://*/*/*/"
+    "https://afevent.afreecatv.com/api/*"
   ],
   "background": {
-    "service_worker": "src/notification.worker.chrome.js"
+    "service_worker": "src/notification.worker.js",
+    "scripts": ["src/notification.worker.js"]
   },
   "browser_specific_settings": {
     "gecko": {
