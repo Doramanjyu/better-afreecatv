@@ -33,7 +33,7 @@ jobs:
             package.json \
             pnpm-lock.yaml
 
-          cat manifest.json | jq 'del(.permissions) | del(.host_permissions) | del(.background.service_worker)' | tee manifest.json
+          cat manifest.json | jq 'del(.background.service_worker)' | tee manifest.json
           zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip *
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
