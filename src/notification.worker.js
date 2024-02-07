@@ -1,10 +1,10 @@
-self.addEventListener('activate', (e) => {
-  console.log(e)
-  setInterval(() => {
-    console.log('worker polling')
-    if (Notification.permission !== 'granted') {
-      return
-    }
-    const notice = new Notification("Hi there!")
-  }, 5000)
-})
+setInterval(() => {
+  console.log('test')
+
+  console.log(Notification.permission)
+  if (Notification.permission === 'granted') {
+    const notice = new Notification('Hi there!')
+    notice.onerror = (e) => console.error(e)
+    console.log(notice)
+  }
+}, 10000)
