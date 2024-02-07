@@ -42,7 +42,9 @@
   ],
   "background": {
     "service_worker": "src/notification.worker.js",
-    "scripts": ["src/notification.worker.js"]
+    "scripts": [
+      "src/notification.worker.js"
+    ]
   },
   "action": {},
   "browser_specific_settings": {
