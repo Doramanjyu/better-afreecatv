@@ -15,15 +15,6 @@ const requestPermissions = async () => {
     url: ubrowser.runtime.getURL('src/index.html'),
     active: true,
   })
-  /*
-  console.log('asking API host permission')
-  await ubrowser.permissions.request({
-    origins: [
-      'https://play.afreecatv.com/*',
-      'https://afevent.afreecatv.com/api/*'
-    ],
-  })
-  */
 }
 ubrowser.runtime.onInstalled.addListener(requestPermissions)
 ubrowser.action.onClicked.addListener(requestPermissions)
