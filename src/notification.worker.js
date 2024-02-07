@@ -1,5 +1,33 @@
 const ubrowser = chrome || browser
 
+const requestPermissions = async () => {
+  const permitted = await ubrowser.permissions.contains({
+    origins: [
+      'https://play.afreecatv.com/*',
+      'https://afevent.afreecatv.com/api/*',
+    ],
+  })
+  if (permitted) {
+    console.log('API host is permitted')
+    return
+  }
+  ubrowser.tabs.create({
+    url: ubrowser.runtime.getURL('src/index.html'),
+    active: true,
+  })
+  /*
+  console.log('asking API host permission')
+  await ubrowser.permissions.request({
+    origins: [
+      'https://play.afreecatv.com/*',
+      'https://afevent.afreecatv.com/api/*'
+    ],
+  })
+  */
+}
+ubrowser.runtime.onInstalled.addListener(requestPermissions)
+ubrowser.action.onClicked.addListener(requestPermissions)
+
 const checkNotifications = async () => {
   try {
     console.log('checking')
