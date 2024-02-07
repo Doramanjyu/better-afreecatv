@@ -25,20 +25,22 @@
         "https://play.afreecatv.com/*"
       ],
       "resources": [
-        "src/notification.worker.js",
         "src/play.css",
         "src/play.embedded.js"
       ]
     }
   ],
   "permissions": [
-    "storage"
+    "alarms",
+    "notifications",
+    "storage",
+    "webRequest"
   ],
-  "optional_permissions": [
-    "notifications"
+  "host_permissions": [
+    "*://*/*/*/"
   ],
-  "content_security_policy": {
-    "extension_pages": "default-src 'self'; script-src 'self' moz-extension://bbcf2970-d050-4789-b88b-fefbb1a7b5b4/*"
+  "background": {
+    "service_worker": "src/notification.worker.chrome.js"
   },
   "browser_specific_settings": {
     "gecko": {
