@@ -26,7 +26,12 @@ ubrowser.runtime.onInstalled.addListener(requestPermissions)
 ubrowser.action.onClicked.addListener(openSettingPage)
 
 const checkNotifications = async () => {
-  if (!(await isPermitted())) {
+  const enabled = (await ubrowser.storage.local.get('notification'))?.notification === true
+  if (!enabled) {
+    return
+  }
+  const permitted = await isPermitted()
+  if (!permitted) {
     console.log('notification is not permitted')
     return
   }
