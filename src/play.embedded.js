@@ -11,6 +11,9 @@
       return
     }
 
+    // Add notranslate class to make translation add-ons ignore the input area
+    el.classList.add('notranslate')
+
     const unblock = () => {
       console.debug(`clearing ${id} paste blocker`)
       $(`#${id}`).off('cut copy paste')
