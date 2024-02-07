@@ -38,10 +38,4 @@
     })
   })
   observer.observe(script.parentElement, { childList: true })
-
-  if (Notification.permission !== 'granted') {
-    document.addEventListener('click', () => Notification.requestPermission(), {
-      once: true,
-    })
-  }
 })()

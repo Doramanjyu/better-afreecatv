@@ -1,25 +1,35 @@
 const ubrowser = chrome || browser
 
-const requestPermissions = async () => {
-  const permitted = await ubrowser.permissions.contains({
-    origins: [
-      'https://play.afreecatv.com/*',
-      'https://afevent.afreecatv.com/api/*',
-    ],
-  })
-  if (permitted) {
-    console.log('API host is permitted')
-    return
-  }
+const openSettingPage = () => {
   ubrowser.tabs.create({
     url: ubrowser.runtime.getURL('src/index.html'),
     active: true,
   })
 }
+
+const isPermitted = async () => {
+  const origins = [
+    'https://play.afreecatv.com/*',
+    'https://afevent.afreecatv.com/api/*',
+  ]
+  return ubrowser.permissions.contains({ origins })
+}
+
+const requestPermissions = async () => {
+  if (await isPermitted()) {
+    console.log('permissions are ok')
+    return
+  }
+  openSettingPage()
+}
 ubrowser.runtime.onInstalled.addListener(requestPermissions)
-ubrowser.action.onClicked.addListener(requestPermissions)
+ubrowser.action.onClicked.addListener(openSettingPage)
 
 const checkNotifications = async () => {
+  if (!(await isPermitted())) {
+    console.log('notification is not permitted')
+    return
+  }
   try {
     console.log('checking')
     const respCount = await fetch(
