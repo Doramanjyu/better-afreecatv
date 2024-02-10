@@ -8,8 +8,8 @@ VERSION_SUFFIX  :=
 FIREFOX_TMPDIR := /tmp/better-afreecatv/firefox
 CHROME_TMPDIR  := /tmp/better-afreecatv/chrome
 
-.PHONY: better-afreecatv$(VERSION_PART)-firefox.zip
-better-afreecatv$(VERSION_PART)-firefox.zip:
+.PHONY: better-afreecatv$(VERSION_SUFFIX)-firefox.zip
+better-afreecatv$(VERSION_SUFFIX)-firefox.zip:
 	rm -f $@
 	rm -rf $(FIREFOX_TMPDIR)
 	mkdir -p $(FIREFOX_TMPDIR)
@@ -19,8 +19,8 @@ better-afreecatv$(VERSION_PART)-firefox.zip:
 	cd $(FIREFOX_TMPDIR) \
 		&& zip -r $(CURDIR)/$@ *
 
-.PHONY: better-afreecatv$(VERSION_PART)-chrome.zip
-better-afreecatv$(VERSION_PART)-chrome.zip:
+.PHONY: better-afreecatv$(VERSION_SUFFIX)-chrome.zip
+better-afreecatv$(VERSION_SUFFIX)-chrome.zip:
 	rm -f $@
 	rm -rf $(CHROME_TMPDIR)
 	mkdir -p $(CHROME_TMPDIR)
