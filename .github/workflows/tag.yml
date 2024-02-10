@@ -33,15 +33,19 @@ jobs:
             package.json \
             pnpm-lock.yaml
 
-          cat manifest.json | jq 'del(.background.service_worker)' | tee manifest.json
+          rm manifest.chrome.json
           zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip *
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
             better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip
           rm *.zip
 
-          git restore manifest.json
-          cat manifest.json | jq 'del(.browser_specific_settings) | del(.background.scripts)' | tee manifest.json
+          git restore manifest.chrome.json
+          mv manifest.chrome.json manifest.json
+          rm \
+            index.html \
+            notification.worker.js \
+            permissions.js
           zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-chrome.zip *
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
