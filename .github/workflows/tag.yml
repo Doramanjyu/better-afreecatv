@@ -28,25 +28,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          rm -f \
-            eslint.config.js \
-            package.json \
-            pnpm-lock.yaml
-
-          rm manifest.chrome.json
-          zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip *
+          make better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip VERSION_SUFFIX=-${{ steps.tag.outputs.tag }}
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
             better-afreecatv-${{ steps.tag.outputs.tag }}-firefox.zip
-          rm *.zip
 
-          git restore manifest.chrome.json
-          mv manifest.chrome.json manifest.json
-          rm \
-            index.html \
-            notification.worker.js \
-            permissions.js
-          zip -r better-afreecatv-${{ steps.tag.outputs.tag }}-chrome.zip *
+          make better-afreecatv-${{ steps.tag.outputs.tag }}-chrome.zip VERSION_SUFFIX=-${{ steps.tag.outputs.tag }}
           gh release upload \
             ${{ steps.tag.outputs.tag }} \
             better-afreecatv-${{ steps.tag.outputs.tag }}-chrome.zip
