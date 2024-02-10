@@ -30,25 +30,5 @@
       ]
     }
   ],
-  "permissions": [
-    "alarms",
-    "notifications",
-    "storage",
-    "webRequest"
-  ],
-  "host_permissions": [
-    "https://play.afreecatv.com/*",
-    "https://afevent.afreecatv.com/api/*"
-  ],
-  "background": {
-    "scripts": [
-      "src/notification.worker.js"
-    ]
-  },
-  "action": {},
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{6a2af241-0567-479a-8d64-7e01c63bb14e}"
-    }
-  }
+  "action": {}
 }

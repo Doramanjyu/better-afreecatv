@@ -50,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cat manifest.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee manifest.json
+          cat manifest.chrome.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee manifest.chrome.json
           cat package.json | jq '.version = "${{ steps.version.outputs.version }}"' | tee package.json
 
           git config user.name Doramanjyu
