@@ -23,6 +23,17 @@
     cleanups.push(() => el.removeEventListener('focus', unblock))
   })
 
+  // Ignore chat forms from browser translation
+  const notranslateAreaIds = ['actionbox', 'emoticonArea']
+  notranslateAreaIds.forEach((id) => {
+    const el = document.getElementById(id)
+    if (!el) {
+      console.debug(`${id} not found`)
+      return
+    }
+    el.setAttribute("translate", "no")
+  })
+
   const script = document.getElementById(scriptId)
   const observer = new MutationObserver((mrs) => {
     mrs.forEach((mr) => {
