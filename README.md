@@ -23,3 +23,5 @@ Make AfreecaTV UX better
 1. Download `better-afreecatv-v*-firefox.zip` from https://github.com/Doramanjyu/better-afreecatv/releases/latest
 2. Open `about:debugging#/runtime/this-firefox`
 3. Push `Load Temporary Add-on...` and select `better-afreecatv-v*-firefox.zip`
+
+test
