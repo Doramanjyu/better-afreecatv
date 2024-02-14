@@ -56,8 +56,8 @@ jobs:
             mv $1.new $1
           }
 
-          update_version manifest.json
           update_version manifest.chrome.json
+          update_version manifest.json
           update_version package.json
 
           git config user.name Doramanjyu
@@ -65,6 +65,7 @@ jobs:
 
           git checkout -b bump-to-${{ steps.version.outputs.version }}
           git add \
+            manifest.chrome.json \
             manifest.json \
             package.json
           git commit -m 'Bump to v${{ steps.version.outputs.version }}'
