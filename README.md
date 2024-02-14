@@ -10,9 +10,13 @@ Make AfreecaTV UX better
   - Fix stream info expand button overlapping emoticon area on portrait mode
   - Reduce backdrop opacity to make it easy to watch the live while sending gifts
 
+## Install
+- [Firefox Add-on](https://addons.mozilla.org/ja/firefox/addon/better-afreecatv/)
+- [Chrome Add-on](https://chromewebstore.google.com/detail/better-afreecatv/igmhffpoadaccgccfeonlbggojappajk)
+
 ## Local install
 > [!WARNING]  
-> This add-on is under development. You can try at your own risk.
+> Local install requires to use development mode. You can try at your own risk.
 
 ### Chrome
 1. Download `better-afreecatv-v*-chrome.zip` from https://github.com/Doramanjyu/better-afreecatv/releases/latest
