@@ -24,14 +24,14 @@
   })
 
   // Ignore chat forms from browser translation
-  const notranslateAreaIds = ['actionbox', 'emoticonArea']
+  const notranslateAreaIds = ['write_area', 'emoticonArea']
   notranslateAreaIds.forEach((id) => {
     const el = document.getElementById(id)
     if (!el) {
       console.debug(`${id} not found`)
       return
     }
-    el.setAttribute("translate", "no")
+    el.setAttribute('translate', 'no')
   })
 
   const script = document.getElementById(scriptId)
