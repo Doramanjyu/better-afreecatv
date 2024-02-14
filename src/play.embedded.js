@@ -11,9 +11,6 @@
       return
     }
 
-    // Add notranslate class to make translation add-ons ignore the input area
-    el.classList.add('notranslate')
-
     const unblock = () => {
       console.debug(`clearing ${id} paste blocker`)
       $(`#${id}`).off('cut copy paste')
@@ -24,7 +21,7 @@
   })
 
   // Ignore chat forms from browser translation
-  const notranslateAreaIds = ['write_area', 'emoticonArea']
+  const notranslateAreaIds = ['write_area', 'emoticonArea', 'auqa_voice_textarea']
   notranslateAreaIds.forEach((id) => {
     const el = document.getElementById(id)
     if (!el) {
@@ -32,6 +29,7 @@
       return
     }
     el.setAttribute('translate', 'no')
+    el.classList.add('notranslate')
   })
 
   const script = document.getElementById(scriptId)
