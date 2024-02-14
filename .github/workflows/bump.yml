@@ -60,6 +60,9 @@ jobs:
           update_version manifest.chrome.json
           update_version package.json
 
+          git config user.name Doramanjyu
+          git config user.email '24859285+Doramanjyu@users.noreply.github.com'
+
           git checkout -b bump-to-${{ steps.version.outputs.version }}
           git add \
             manifest.json \
