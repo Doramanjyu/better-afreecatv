@@ -76,7 +76,7 @@ const improveEmoticonResolution = async () => {
       if (!to) {
         return
       }
-      console.log(
+      console.debug(
         `Replacing ${e.src.split('/').pop()} by ${to.split('/').pop()}`,
       )
       e.src = to
