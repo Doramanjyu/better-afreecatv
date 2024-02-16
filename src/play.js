@@ -45,6 +45,7 @@ const improveEmoticonResolution = async () => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
+      referrerpolicy: 'no-referrer-when-downgrade',
     },
   )
   const data = await resp.json()
