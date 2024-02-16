@@ -32,7 +32,6 @@ head.appendChild(style)
 
 // Improve emoticon image resolution on PC
 const improveEmoticonResolution = async () => {
-  console.log('fetching emoticon info')
   const bjId = window.location.pathname.split('/')[1]
   const resp = await fetch(
     'https://live.afreecatv.com/api/signature_emoticon_api.php',
@@ -62,17 +61,26 @@ const improveEmoticonResolution = async () => {
       if (!to) {
         return
       }
-      console.log(`Replacing ${e.src} to ${to}`)
+      console.log(
+        `Replacing ${e.src.split('/').pop()} by ${to.split('/').pop()}`,
+      )
       e.src = to
       e.classList.add('hiresEmoticon')
     })
+
   const chatArea = document.getElementById('chat_area')
-  const observer = new MutationObserver((mrs) =>
+  const chatObserver = new MutationObserver((mrs) =>
     mrs.forEach((mr) => mr.addedNodes.forEach((n) => replaceEmoticons(n))),
   )
   replaceEmoticons(chatArea)
-  replaceEmoticons(document.getElementById('emoticonBox'))
-  observer.observe(chatArea, { childList: true })
+  chatObserver.observe(chatArea, { childList: true })
+
+  const emoticonBox = document.getElementById('emoticonBox')
+  const emoticonAreaObserver = new MutationObserver(() =>
+    replaceEmoticons(emoticonBox),
+  )
+  replaceEmoticons(emoticonBox)
+  emoticonAreaObserver.observe(emoticonBox, { childList: true, subtree: true })
 }
 
 improveEmoticonResolution()
