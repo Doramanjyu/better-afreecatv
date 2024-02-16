@@ -30,7 +30,7 @@ const head = document.head || document.documentElement
 head.appendChild(script)
 head.appendChild(style)
 
-// Improve emoticon image resolution on PC
+// Improve emoticon image resolution
 const improveEmoticonResolution = async () => {
   const bjId = window.location.pathname.split('/')[1]
   const resp = await fetch(
