@@ -45,7 +45,6 @@ const improveEmoticonResolution = async () => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      referrerpolicy: 'no-referrer-when-downgrade',
     },
   )
   const data = await resp.json()
@@ -80,8 +79,9 @@ const improveEmoticonResolution = async () => {
       console.debug(
         `Replacing ${e.src.split('/').pop()} by ${to.split('/').pop()}`,
       )
-      e.src = to
       e.classList.add('hiresEmoticon')
+      e.referrerPolicy = 'no-referrer'
+      e.src = to
     })
 
   const chatArea = document.getElementById('chat_area')
