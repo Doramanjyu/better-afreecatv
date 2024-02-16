@@ -55,9 +55,24 @@ const improveEmoticonResolution = async () => {
     new Map(),
   )
 
+  const commonEmoticonUrlPattern = new RegExp(
+    '^(https://res.afreecatv.com/images/chat/emoticon)/small/(.*)$',
+  )
+  const largeImage = (url) => {
+    const subscription = emoticons.get(url)
+    if (subscription) {
+      return subscription
+    }
+    const found = url.match(commonEmoticonUrlPattern)
+    if (found) {
+      return `${found[1]}/big/${found[2]}`
+    }
+    return null
+  }
+
   const replaceEmoticons = (n) =>
     Array.from(n.getElementsByTagName('img')).forEach((e) => {
-      const to = emoticons.get(e.src)
+      const to = largeImage(e.src)
       if (!to) {
         return
       }
