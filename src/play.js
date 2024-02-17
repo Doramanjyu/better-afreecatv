@@ -60,15 +60,27 @@ const improveEmoticonResolution = async () => {
     },
   )
   const data = await resp.json()
-  const emoticonBasePath = data.img_path
-  const emoticons = data.data.reduce(
-    (acc, v) =>
-      acc.set(emoticonBasePath + v.pc_img, emoticonBasePath + v.mobile_img),
-    new Map(),
+  // AfreecaTV uses both `//static.afreecatv.com` and `https://static.afreecatv.com` as URL.
+  // Support both patterns.
+  const emoticonBaseUrl = new URL(
+    data.img_path.startsWith('//') ? 'https:' + data.img_path : data.img_path,
   )
+  const emoticonBasePath = emoticonBaseUrl.toString()
+  emoticonBaseUrl.protocol = ''
+  const emoticonBasePathNoScheme = emoticonBaseUrl.toString()
+
+  const emoticons = data.data.reduce((acc, v) => {
+    acc.set(emoticonBasePath + v.pc_img, emoticonBasePath + v.mobile_img)
+    acc.set(
+      emoticonBasePathNoScheme + v.pc_img,
+      emoticonBasePath + v.mobile_img,
+    )
+    return acc
+  }, new Map())
+  console.log(emoticons)
 
   const commonEmoticonUrlPattern = new RegExp(
-    '^(https://res.afreecatv.com/images/chat/emoticon)/small/(.*)$',
+    '^((https:)?//res.afreecatv.com/images/chat/emoticon)/small/(.*)$',
   )
   const largeImage = (url) => {
     const subscription = emoticons.get(url)
