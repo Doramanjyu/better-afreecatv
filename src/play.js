@@ -89,7 +89,7 @@ const improveEmoticonResolution = async () => {
     }
     const found = url.match(commonEmoticonUrlPattern)
     if (found) {
-      return `${found[1]}/big/${found[2]}`
+      return `${found[2]}/big/${found[3]}`
     }
     return null
   }
