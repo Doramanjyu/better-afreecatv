@@ -77,7 +77,6 @@ const improveEmoticonResolution = async () => {
     )
     return acc
   }, new Map())
-  console.log(emoticons)
 
   const commonEmoticonUrlPattern = new RegExp(
     '^((https:)?//res.afreecatv.com/images/chat/emoticon)/small/(.*)$',
