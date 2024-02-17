@@ -4,6 +4,12 @@
 
   let cleanups = []
 
+  // Allow pasting to chat and gift text area
+  //
+  // note:
+  //  This uses jQuery on the document context to clear the paste blocker handler.
+  //  It should be done in the embedded script on the document context
+  //  instead of the content script on the isolated context.
   pasteAllowIds.forEach((id) => {
     const el = document.getElementById(id)
     if (!el) {
@@ -18,22 +24,6 @@
     el.addEventListener('focus', unblock)
 
     cleanups.push(() => el.removeEventListener('focus', unblock))
-  })
-
-  // Ignore chat forms from browser translation
-  const notranslateAreaIds = [
-    'auqa_voice_textarea',
-    'emoticonArea',
-    'write_area',
-  ]
-  notranslateAreaIds.forEach((id) => {
-    const el = document.getElementById(id)
-    if (!el) {
-      console.debug(`${id} not found`)
-      return
-    }
-    el.setAttribute('translate', 'no')
-    el.classList.add('notranslate')
   })
 
   const script = document.getElementById(scriptId)

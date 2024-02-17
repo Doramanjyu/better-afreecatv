@@ -30,6 +30,18 @@ const head = document.head || document.documentElement
 head.appendChild(script)
 head.appendChild(style)
 
+// Ignore chat forms from browser translation
+const notranslateAreaIds = ['auqa_voice_textarea', 'emoticonArea', 'write_area']
+notranslateAreaIds.forEach((id) => {
+  const el = document.getElementById(id)
+  if (!el) {
+    console.debug(`${id} not found`)
+    return
+  }
+  el.setAttribute('translate', 'no')
+  el.classList.add('notranslate')
+})
+
 // Improve emoticon image resolution
 const improveEmoticonResolution = async () => {
   const bjId = window.location.pathname.split('/')[1]
