@@ -30,6 +30,11 @@ const head = document.head || document.documentElement
 head.appendChild(script)
 head.appendChild(style)
 
+const setNoTranslate = (el) => {
+  el.setAttribute('translate', 'no')
+  el.classList.add('notranslate')
+}
+
 // Ignore chat forms from browser translation
 const notranslateAreaIds = ['auqa_voice_textarea', 'emoticonArea', 'write_area']
 notranslateAreaIds.forEach((id) => {
@@ -38,8 +43,7 @@ notranslateAreaIds.forEach((id) => {
     console.debug(`${id} not found`)
     return
   }
-  el.setAttribute('translate', 'no')
-  el.classList.add('notranslate')
+  setNoTranslate(el)
 })
 
 // Improve emoticon image resolution
@@ -102,6 +106,7 @@ const improveEmoticonResolution = async () => {
       console.debug(
         `Replacing ${e.src.split('/').pop()} by ${to.split('/').pop()}`,
       )
+      setNoTranslate(e)
       e.classList.add('hiresEmoticon')
       e.referrerPolicy = 'no-referrer'
       e.src = to
