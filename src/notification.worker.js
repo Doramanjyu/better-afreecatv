@@ -1,5 +1,10 @@
 const ubrowser = chrome || browser
 
+const NotificationTypes = Object.freeze({
+  LiveStart: 'F01',
+  NewPost: 'F02',
+})
+
 const openSettingPage = () => {
   ubrowser.tabs.create({
     url: ubrowser.runtime.getURL('src/index.html'),
@@ -65,29 +70,51 @@ const checkNotifications = async () => {
 
     const ops = data.DATA.reverse()
       .map((d) => {
-        if (
-          d.READ_FLAG === '1' ||
-          d.FROM_ID === 'afnotice' ||
-          d.NOTI_TYPE !== 'F01' ||
-          d.SEQ <= latestSeq
-        ) {
+        if (d.FROM_ID === 'afnotice' || d.SEQ <= latestSeq) {
           return null
         }
-        latestSeq = d.SEQ
-        return () => {
-          console.log(`notifying ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`)
-          return ubrowser.notifications.create(
-            `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}`,
-            {
-              type: 'basic',
-              title: `${d.FROM_NICKNAME}: ${d.FROM_ID}`,
-              message: d.HEAD_TEXT,
-              iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
-            },
-          )
+        switch (d.NOTI_TYPE) {
+          case NotificationTypes.LiveStart:
+            latestSeq = d.SEQ
+            return () => {
+              console.log(
+                `notifying live start ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+              )
+              return ubrowser.notifications.create(
+                `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}/live`,
+                {
+                  type: 'basic',
+                  title: `📢${d.FROM_NICKNAME} is live!`,
+                  message: d.HEAD_TEXT,
+                  iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
+                },
+              )
+            }
+          case NotificationTypes.NewPost:
+            latestSeq = d.SEQ
+            return () => {
+              console.log(
+                `notifying new post ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+              )
+              return ubrowser.notifications.create(
+                `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}/post`,
+                {
+                  type: 'basic',
+                  title: `📝${d.FROM_NICKNAME} has new post!`,
+                  message: d.HEAD_TEXT,
+                  iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
+                },
+              )
+            }
+          default:
+            console.log(
+              `unknown notification type ${d.NOTI_TYPE} ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+            )
+            return null
         }
       })
       .filter((p) => p)
+    console.log(ops)
     for (const o of ops) {
       await o()
     }
@@ -103,6 +130,7 @@ ubrowser.alarms.create('poll_notification', {
   periodInMinutes: 1,
 })
 
+checkNotifications()
 ubrowser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'poll_notification') {
     checkNotifications()
@@ -111,7 +139,17 @@ ubrowser.alarms.onAlarm.addListener((alarm) => {
 
 ubrowser.notifications.onClicked.addListener((id) => {
   const args = id.split('/')
-  const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
-  console.log(`opening ${url}`)
-  ubrowser.tabs.create({ url })
+  switch (args[3]) {
+    case 'live': {
+      const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
+      console.log(`opening ${url}`)
+      ubrowser.tabs.create({ url })
+      break
+    }
+    case 'post': {
+      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+      ubrowser.tabs.create({ url })
+      break
+    }
+  }
 })
