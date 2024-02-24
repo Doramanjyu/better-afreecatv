@@ -42,20 +42,7 @@ const checkNotifications = async () => {
     return
   }
   try {
-    console.log('checking')
-    const respCount = await fetch(
-      'https://afevent.afreecatv.com/api/notification.php?szWork=getBadgeInfo',
-      {
-        method: 'GET',
-      },
-    )
-    const count = await respCount.json()
-    if (count.BADGE_COUNT === 0) {
-      console.log('no new notification')
-      return
-    }
-
-    console.log('getting details')
+    console.log('getting notifications')
     const resp = await fetch(
       'https://afevent.afreecatv.com/api/notification.php?szWork=getNotifications&szWork=getNotifications&nPageNo=1',
       {
