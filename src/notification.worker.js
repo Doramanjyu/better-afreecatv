@@ -134,6 +134,7 @@ ubrowser.notifications.onClicked.addListener((id) => {
     }
     case 'post': {
       const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+      console.log(`opening ${url}`)
       ubrowser.tabs.create({ url })
       break
     }
