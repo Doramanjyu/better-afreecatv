@@ -57,7 +57,11 @@ const checkNotifications = async () => {
 
     const ops = data.DATA.reverse()
       .map((d) => {
-        if (d.FROM_ID === 'afnotice' || d.SEQ <= latestSeq) {
+        if (
+          d.READ_FLAG === '1' ||
+          d.FROM_ID === 'afnotice' ||
+          d.SEQ <= latestSeq
+        ) {
           return null
         }
         switch (d.NOTI_TYPE) {
