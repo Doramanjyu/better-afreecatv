@@ -117,7 +117,6 @@ ubrowser.alarms.create('poll_notification', {
   periodInMinutes: 1,
 })
 
-checkNotifications()
 ubrowser.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'poll_notification') {
     checkNotifications()
