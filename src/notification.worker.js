@@ -138,18 +138,18 @@ const registerNotificationPoller = async () => {
   ubrowser.notifications.onClicked.addListener((id) => {
     const args = id.split('/')
     switch (args[3]) {
-    case 'live': {
-      const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
-      console.log(`opening ${url}`)
-      ubrowser.tabs.create({ url })
-      break
-    }
-    case 'post': {
-      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
-      console.log(`opening ${url}`)
-      ubrowser.tabs.create({ url })
-      break
-    }
+      case 'live': {
+        const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
+        console.log(`opening ${url}`)
+        ubrowser.tabs.create({ url })
+        break
+      }
+      case 'post': {
+        const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+        console.log(`opening ${url}`)
+        ubrowser.tabs.create({ url })
+        break
+      }
     }
   })
 }
