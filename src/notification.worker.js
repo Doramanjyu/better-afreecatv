@@ -115,32 +115,47 @@ const checkNotifications = async () => {
   }
 }
 
-console.log('register')
-ubrowser.alarms.create('poll_notification', {
-  delayInMinutes: 0,
-  periodInMinutes: 1,
-})
+const registerNotificationPoller = async () => {
+  const alarmName = 'poll_notification'
 
-ubrowser.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === 'poll_notification') {
-    checkNotifications()
+  if (await ubrowser.alarms.get(alarmName)) {
+    console.log('notification poller already registered')
+    return
   }
-})
 
-ubrowser.notifications.onClicked.addListener((id) => {
-  const args = id.split('/')
-  switch (args[3]) {
-    case 'live': {
-      const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
-      console.log(`opening ${url}`)
-      ubrowser.tabs.create({ url })
-      break
+  console.log('registering notification poller')
+  ubrowser.alarms.create(alarmName, {
+    delayInMinutes: 0,
+    periodInMinutes: 1,
+  })
+
+  ubrowser.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === alarmName) {
+      checkNotifications()
     }
-    case 'post': {
-      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
-      console.log(`opening ${url}`)
-      ubrowser.tabs.create({ url })
-      break
+  })
+
+  ubrowser.notifications.onClicked.addListener((id) => {
+    const args = id.split('/')
+    switch (args[3]) {
+      case 'live': {
+        const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
+        console.log(`opening ${url}`)
+        ubrowser.tabs.create({ url })
+        break
+      }
+      case 'post': {
+        const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+        console.log(`opening ${url}`)
+        ubrowser.tabs.create({ url })
+        break
+      }
     }
-  }
+  })
+}
+
+registerNotificationPoller()
+ubrowser.runtime.onStartup.addListener(() => {
+  console.log('browser started')
+  registerNotificationPoller()
 })
