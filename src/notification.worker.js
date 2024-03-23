@@ -115,15 +115,22 @@ const checkNotifications = async () => {
   }
 }
 
-const registerNotificationPoller = () => {
-  console.log('register')
-  ubrowser.alarms.create('poll_notification', {
+const registerNotificationPoller = async () => {
+  const alarmName = 'poll_notification'
+
+  if (await ubrowser.alarms.get(alarmName)) {
+    console.log('notification poller already registered')
+    return
+  }
+
+  console.log('registering notification poller')
+  ubrowser.alarms.create(alarmName, {
     delayInMinutes: 0,
     periodInMinutes: 1,
   })
 
   ubrowser.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === 'poll_notification') {
+    if (alarm.name === alarmName) {
       checkNotifications()
     }
   })
@@ -148,4 +155,7 @@ const registerNotificationPoller = () => {
 }
 
 registerNotificationPoller()
-ubrowser.runtime.onStartup.addListener(registerNotificationPoller)
+ubrowser.runtime.onStartup.addListener(() => {
+  console.log('browser started')
+  registerNotificationPoller()
+})
