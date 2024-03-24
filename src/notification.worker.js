@@ -3,6 +3,7 @@ const ubrowser = chrome || browser
 const NotificationTypes = Object.freeze({
   LiveStart: 'F01',
   NewPost: 'F02',
+  Reply: 'A04',
 })
 
 const openSettingPage = () => {
@@ -97,6 +98,22 @@ const checkNotifications = async () => {
                 },
               )
             }
+          case NotificationTypes.Reply:
+            latestSeq = d.SEQ
+            return () => {
+              console.log(
+                `notifying reply ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+              )
+              return ubrowser.notifications.create(
+                `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}/reply/${d.SUB_COMMON_NO}`,
+                {
+                  type: 'basic',
+                  title: `💬${d.FROM_NICKNAME} replied!`,
+                  message: d.HEAD_TEXT,
+                  iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
+                },
+              )
+            }
           default:
             console.log(
               `unknown notification type ${d.NOTI_TYPE} ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
@@ -146,6 +163,12 @@ const registerNotificationPoller = async () => {
       }
       case 'post': {
         const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+        console.log(`opening ${url}`)
+        ubrowser.tabs.create({ url })
+        break
+      }
+      case 'reply': {
+        const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}#reply_noti${args[4]}`
         console.log(`opening ${url}`)
         ubrowser.tabs.create({ url })
         break
