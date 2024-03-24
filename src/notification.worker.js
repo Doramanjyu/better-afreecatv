@@ -55,7 +55,6 @@ const checkNotifications = async () => {
 
     let latestSeq =
       (await ubrowser.storage.local.get('latestSeq'))?.latestSeq || 0
-    latestSeq = 7004958363
     console.log(`last notified seq: ${latestSeq}`)
 
     const ops = data.DATA.reverse()
