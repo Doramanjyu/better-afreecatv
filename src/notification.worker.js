@@ -123,7 +123,6 @@ const checkNotifications = async () => {
         }
       })
       .filter((p) => p)
-    console.log(ops)
     for (const o of ops) {
       await o()
     }
@@ -134,7 +133,6 @@ const checkNotifications = async () => {
 }
 
 const alarmHandler = (alarm) => {
-  console.log("alarm", alarm)
   if (alarm.name === alarmName) {
     checkNotifications()
   }
