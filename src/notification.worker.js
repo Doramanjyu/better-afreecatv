@@ -1,5 +1,6 @@
 const ubrowser = chrome || browser
 
+const alarmName = 'poll_notification'
 const NotificationTypes = Object.freeze({
   LiveStart: 'F01',
   NewPost: 'F02',
@@ -122,7 +123,6 @@ const checkNotifications = async () => {
         }
       })
       .filter((p) => p)
-    console.log(ops)
     for (const o of ops) {
       await o()
     }
@@ -132,53 +132,46 @@ const checkNotifications = async () => {
   }
 }
 
-const registerNotificationPoller = async () => {
-  const alarmName = 'poll_notification'
-
-  if (await ubrowser.alarms.get(alarmName)) {
-    console.log('notification poller already registered')
-    return
+const alarmHandler = (alarm) => {
+  if (alarm.name === alarmName) {
+    checkNotifications()
   }
-
-  console.log('registering notification poller')
-  ubrowser.alarms.create(alarmName, {
-    delayInMinutes: 0,
-    periodInMinutes: 1,
-  })
-
-  ubrowser.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === alarmName) {
-      checkNotifications()
-    }
-  })
-
-  ubrowser.notifications.onClicked.addListener((id) => {
-    const args = id.split('/')
-    switch (args[3]) {
-      case 'live': {
-        const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
-        console.log(`opening ${url}`)
-        ubrowser.tabs.create({ url })
-        break
-      }
-      case 'post': {
-        const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
-        console.log(`opening ${url}`)
-        ubrowser.tabs.create({ url })
-        break
-      }
-      case 'reply': {
-        const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}#reply_noti${args[4]}`
-        console.log(`opening ${url}`)
-        ubrowser.tabs.create({ url })
-        break
-      }
-    }
-  })
 }
 
-registerNotificationPoller()
+const notificationClickHandler = (id) => {
+  const args = id.split('/')
+  switch (args[3]) {
+    case 'live': {
+      const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
+      console.log(`opening ${url}`)
+      ubrowser.tabs.create({ url })
+      break
+    }
+    case 'post': {
+      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+      console.log(`opening ${url}`)
+      ubrowser.tabs.create({ url })
+      break
+    }
+    case 'reply': {
+      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}#reply_noti${args[4]}`
+      console.log(`opening ${url}`)
+      ubrowser.tabs.create({ url })
+      break
+    }
+  }
+}
+
+console.log('registering notification poller')
+
+ubrowser.alarms.create(alarmName, {
+  delayInMinutes: 0,
+  periodInMinutes: 1,
+})
+ubrowser.alarms.onAlarm.addListener(alarmHandler)
+ubrowser.notifications.onClicked.addListener(notificationClickHandler)
+
 ubrowser.runtime.onStartup.addListener(() => {
   console.log('browser started')
-  registerNotificationPoller()
+  checkNotifications()
 })
