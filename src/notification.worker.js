@@ -66,7 +66,7 @@ const checkNotifications = async () => {
         }
         switch (d.noti_type) {
           case NotificationTypes.LiveStart:
-            latestSeq = d.SEQ
+            latestSeq = d.seq
             return () => {
               console.log(
                 `notifying live start ${d.seq} ${d.from_id} ${d.common_no}`,
