@@ -16,8 +16,8 @@ const openSettingPage = () => {
 
 const isPermitted = async () => {
   const origins = [
-    'https://play.afreecatv.com/*',
-    'https://afevent.afreecatv.com/api/*',
+    "https://api.m.sooplive.co.kr/noti/*",
+    "https://play.sooplive.co.kr/*",
   ]
   return ubrowser.permissions.contains({ origins })
 }
@@ -46,7 +46,7 @@ const checkNotifications = async () => {
   try {
     console.log('getting notifications')
     const resp = await fetch(
-      'https://afevent.afreecatv.com/api/notification.php?szWork=getNotifications&szWork=getNotifications&nPageNo=1',
+      'https://api.m.sooplive.co.kr/noti/a/list',
       {
         method: 'GET',
       },
@@ -57,67 +57,67 @@ const checkNotifications = async () => {
       (await ubrowser.storage.local.get('latestSeq'))?.latestSeq || 0
     console.log(`last notified seq: ${latestSeq}`)
 
-    const ops = data.DATA.reverse()
+    const ops = data.data.reverse()
       .map((d) => {
         if (
-          d.READ_FLAG === '1' ||
-          d.FROM_ID === 'afnotice' ||
-          d.SEQ <= latestSeq
+          d.read_flag === '1' ||
+          d.from_id === 'afnotice' ||
+          d.seq <= latestSeq
         ) {
           return null
         }
-        switch (d.NOTI_TYPE) {
+        switch (d.noti_type) {
           case NotificationTypes.LiveStart:
             latestSeq = d.SEQ
             return () => {
               console.log(
-                `notifying live start ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+                `notifying live start ${d.seq} ${d.from_id} ${d.common_no}`,
               )
               return ubrowser.notifications.create(
-                `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}/live`,
+                `${d.seq}/${d.from_id}/${d.common_no}/live`,
                 {
                   type: 'basic',
-                  title: `📢${d.FROM_NICKNAME} is live!`,
-                  message: d.HEAD_TEXT,
-                  iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
+                  title: `📢${d.from_nickname} is live!`,
+                  message: d.head_text,
+                  iconUrl: `https://stimg.sooplive.co.kr/LOGO/${d.from_id.slice(0, 2)}/${d.from_id}/m/${d.from_id}.webp`,
                 },
               )
             }
           case NotificationTypes.NewPost:
-            latestSeq = d.SEQ
+            latestSeq = d.seq
             return () => {
               console.log(
-                `notifying new post ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+                `notifying new post ${d.seq} ${d.from_id} ${d.common_no}`,
               )
               return ubrowser.notifications.create(
-                `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}/post`,
+                `${d.seq}/${d.from_id}/${d.common_no}/post`,
                 {
                   type: 'basic',
-                  title: `📝${d.FROM_NICKNAME} has new post!`,
-                  message: d.HEAD_TEXT,
-                  iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
+                  title: `📝${d.from_nickname} has new post!`,
+                  message: d.head_text,
+                  iconUrl: `https://stimg.sooplive.co.kr/LOGO/${d.from_id.slice(0, 2)}/${d.from_id}/m/${d.from_id}.webp`,
                 },
               )
             }
           case NotificationTypes.Reply:
-            latestSeq = d.SEQ
+            latestSeq = d.seq
             return () => {
               console.log(
-                `notifying reply ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+                `notifying reply ${d.seq} ${d.from_id} ${d.common_no}`,
               )
               return ubrowser.notifications.create(
-                `${d.SEQ}/${d.FROM_ID}/${d.COMMON_NO}/reply/${d.SUB_COMMON_NO}`,
+                `${d.seq}/${d.from_id}/${d.common_no}/reply/${d.sub_common_no}`,
                 {
                   type: 'basic',
-                  title: `💬${d.FROM_NICKNAME} replied!`,
-                  message: d.HEAD_TEXT,
-                  iconUrl: `https://stimg.afreecatv.com/LOGO/${d.FROM_ID.slice(0, 2)}/${d.FROM_ID}/m/${d.FROM_ID}.webp`,
+                  title: `💬${d.from_nickname} replied!`,
+                  message: d.head_text,
+                  iconUrl: `https://stimg.sooplive.co.kr/LOGO/${d.from_id.slice(0, 2)}/${d.from_id}/m/${d.from_id}.webp`,
                 },
               )
             }
           default:
             console.log(
-              `unknown notification type ${d.NOTI_TYPE} ${d.SEQ} ${d.FROM_ID} ${d.COMMON_NO}`,
+              `unknown notification type ${d.noti_type} ${d.seq} ${d.from_id} ${d.common_no}`,
             )
             return null
         }
@@ -142,19 +142,19 @@ const notificationClickHandler = (id) => {
   const args = id.split('/')
   switch (args[3]) {
     case 'live': {
-      const url = `https://play.afreecatv.com/${args[1]}/${args[2]}`
+      const url = `https://play.sooplive.co.kr/${args[1]}/${args[2]}`
       console.log(`opening ${url}`)
       ubrowser.tabs.create({ url })
       break
     }
     case 'post': {
-      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}`
+      const url = `https://ch.sooplive.co.kr/${args[1]}/post/${args[2]}`
       console.log(`opening ${url}`)
       ubrowser.tabs.create({ url })
       break
     }
     case 'reply': {
-      const url = `https://bj.afreecatv.com/${args[1]}/post/${args[2]}#reply_noti${args[4]}`
+      const url = `https://ch.sooplive.co.kr/${args[1]}/post/${args[2]}#reply_noti${args[4]}`
       console.log(`opening ${url}`)
       ubrowser.tabs.create({ url })
       break
