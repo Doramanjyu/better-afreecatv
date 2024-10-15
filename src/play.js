@@ -50,7 +50,7 @@ notranslateAreaIds.forEach((id) => {
 const improveEmoticonResolution = async () => {
   const bjId = window.location.pathname.split('/')[1]
   const resp = await fetch(
-    'https://live.afreecatv.com/api/signature_emoticon_api.php',
+    'https://live.sooplive.co.kr/api/signature_emoticon_api.php',
     {
       method: 'POST',
       body: new URLSearchParams({
@@ -64,7 +64,7 @@ const improveEmoticonResolution = async () => {
     },
   )
   const data = await resp.json()
-  // AfreecaTV uses both `//static.afreecatv.com` and `https://static.afreecatv.com` as URL.
+  // AfreecaTV uses both `//static...` and `https://static...` as URL.
   // Support both patterns.
   const emoticonBaseUrl = new URL(
     data.img_path.startsWith('//') ? 'https:' + data.img_path : data.img_path,
@@ -83,7 +83,7 @@ const improveEmoticonResolution = async () => {
   }, new Map())
 
   const commonEmoticonUrlPattern = new RegExp(
-    '^((https:)?//res.afreecatv.com/images/chat/emoticon)/small/(.*)$',
+    '^((https:)?//res.sooplive.co.kr/images/chat/emoticon)/small/(.*)$',
   )
   const largeImage = (url) => {
     const subscription = emoticons.get(url)

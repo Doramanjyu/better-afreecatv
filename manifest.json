@@ -12,7 +12,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://play.afreecatv.com/*"
+        "https://play.sooplive.co.kr/*"
       ],
       "js": [
         "src/play.js"
@@ -22,7 +22,7 @@
   "web_accessible_resources": [
     {
       "matches": [
-        "https://play.afreecatv.com/*"
+        "https://play.sooplive.co.kr/*"
       ],
       "resources": [
         "src/play.css",
@@ -37,8 +37,8 @@
     "webRequest"
   ],
   "host_permissions": [
-    "https://play.afreecatv.com/*",
-    "https://afevent.afreecatv.com/api/*"
+    "https://api.m.sooplive.co.kr/noti/*",
+    "https://play.sooplive.co.kr/*"
   ],
   "background": {
     "scripts": [

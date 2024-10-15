@@ -1,5 +1,5 @@
 # better-afreecatv addon
-Make AfreecaTV UX better
+Make SOOP (formerly AfreecaTV) UX better
 
 ## Features
 - Clipboard anti-blocking
