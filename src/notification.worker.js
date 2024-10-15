@@ -16,8 +16,8 @@ const openSettingPage = () => {
 
 const isPermitted = async () => {
   const origins = [
-    "https://api.m.sooplive.co.kr/noti/*",
-    "https://play.sooplive.co.kr/*",
+    'https://api.m.sooplive.co.kr/noti/*',
+    'https://play.sooplive.co.kr/*',
   ]
   return ubrowser.permissions.contains({ origins })
 }
@@ -45,19 +45,17 @@ const checkNotifications = async () => {
   }
   try {
     console.log('getting notifications')
-    const resp = await fetch(
-      'https://api.m.sooplive.co.kr/noti/a/list',
-      {
-        method: 'GET',
-      },
-    )
+    const resp = await fetch('https://api.m.sooplive.co.kr/noti/a/list', {
+      method: 'GET',
+    })
     const data = await resp.json()
 
     let latestSeq =
       (await ubrowser.storage.local.get('latestSeq'))?.latestSeq || 0
     console.log(`last notified seq: ${latestSeq}`)
 
-    const ops = data.data.reverse()
+    const ops = data.data
+      .reverse()
       .map((d) => {
         if (
           d.read_flag === '1' ||

@@ -1,7 +1,7 @@
 const ubrowser = chrome || browser
 const origins = [
-  "https://api.m.sooplive.co.kr/noti/*",
-  "https://play.sooplive.co.kr/*",
+  'https://api.m.sooplive.co.kr/noti/*',
+  'https://play.sooplive.co.kr/*',
 ]
 const enableButton = document.getElementById('enableLiveNotification')
 const disableButton = document.getElementById('disableLiveNotification')
