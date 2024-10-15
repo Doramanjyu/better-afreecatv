@@ -1,7 +1,7 @@
 {
   "name": "better-afreecatv",
   "version": "0.6.1",
-  "description": "Make AfreecaTV UX better",
+  "description": "Make SOOP (formerly AfreecaTV) UX better",
   "main": "src/index.js",
   "author": "Doramanjyu",
   "license": "Apache-2.0",
