@@ -1,6 +1,6 @@
 {
   "name": "better-afreecatv",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Make SOOP (formerly AfreecaTV) UX better",
   "main": "src/index.js",
   "author": "Doramanjyu",
