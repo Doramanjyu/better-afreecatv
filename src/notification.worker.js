@@ -69,15 +69,15 @@ const checkNotifications = async () => {
             latestSeq = d.seq
             return () => {
               console.log(
-                `notifying live start ${d.seq} ${d.from_id} ${d.common_no}`,
+                `notifying live start ${d.seq} ${d.from_id} ${d.log_info.common_no}`,
               )
               return ubrowser.notifications.create(
-                `${d.seq}/${d.from_id}/${d.common_no}/live`,
+                `${d.seq}/${d.from_id}/${d.log_info.common_no}/live`,
                 {
                   type: 'basic',
                   title: `📢${d.from_nickname} is live!`,
                   message: d.head_text,
-                  iconUrl: `https://stimg.sooplive.co.kr/LOGO/${d.from_id.slice(0, 2)}/${d.from_id}/m/${d.from_id}.webp`,
+                  iconUrl: d.profile,
                 },
               )
             }
@@ -85,15 +85,15 @@ const checkNotifications = async () => {
             latestSeq = d.seq
             return () => {
               console.log(
-                `notifying new post ${d.seq} ${d.from_id} ${d.common_no}`,
+                `notifying new post ${d.seq} ${d.from_id} ${d.log_info.common_no}`,
               )
               return ubrowser.notifications.create(
-                `${d.seq}/${d.from_id}/${d.common_no}/post`,
+                `${d.seq}/${d.from_id}/${d.log_info.common_no}/post`,
                 {
                   type: 'basic',
                   title: `📝${d.from_nickname} has new post!`,
                   message: d.head_text,
-                  iconUrl: `https://stimg.sooplive.co.kr/LOGO/${d.from_id.slice(0, 2)}/${d.from_id}/m/${d.from_id}.webp`,
+                  iconUrl: d.profile,
                 },
               )
             }
@@ -101,21 +101,21 @@ const checkNotifications = async () => {
             latestSeq = d.seq
             return () => {
               console.log(
-                `notifying reply ${d.seq} ${d.from_id} ${d.common_no}`,
+                `notifying reply ${d.seq} ${d.from_id} ${d.log_info.common_no}`,
               )
               return ubrowser.notifications.create(
-                `${d.seq}/${d.from_id}/${d.common_no}/reply/${d.sub_common_no}`,
+                `${d.seq}/${d.from_id}/${d.log_info.common_no}/reply/${d.log_info.sub_common_no}`,
                 {
                   type: 'basic',
                   title: `💬${d.from_nickname} replied!`,
                   message: d.head_text,
-                  iconUrl: `https://stimg.sooplive.co.kr/LOGO/${d.from_id.slice(0, 2)}/${d.from_id}/m/${d.from_id}.webp`,
+                  iconUrl: d.profile,
                 },
               )
             }
           default:
             console.log(
-              `unknown notification type ${d.noti_type} ${d.seq} ${d.from_id} ${d.common_no}`,
+              `unknown notification type ${d.noti_type} ${d.seq} ${d.from_id} ${d.log_info.common_no}`,
             )
             return null
         }
