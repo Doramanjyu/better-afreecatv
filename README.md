@@ -9,6 +9,7 @@ Make SOOP (formerly AfreecaTV) UX better
 - Desktop notifications for Firefox (official notification feature is available for Chrome)
 - Style fixes
   - Reduce backdrop opacity to make it easy to watch the live while sending gifts
+  - Fix shrinked emoticon due to padding
 
 ## Install
 - [Firefox Add-on](https://addons.mozilla.org/ja/firefox/addon/better-afreecatv/)
