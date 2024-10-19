@@ -5,6 +5,7 @@
 .hiresEmoticon {
   width: 26px;
   height: 26px;
+  box-sizing: content-box;
 }
 
 img.emoticon {
