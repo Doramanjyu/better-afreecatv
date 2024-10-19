@@ -6,6 +6,7 @@ Make SOOP (formerly AfreecaTV) UX better
   - Allow pasting to chat and gift text area for users requiring translation tools
 - Workaround errors on sending chat/emoji when translation add-ons are enabled
 - Improve emoticon image resolution
+- Add button to change opacity of overlay UI box
 - Desktop notifications for Firefox (official notification feature is available for Chrome)
 - Style fixes
   - Reduce backdrop opacity to make it easy to watch the live while sending gifts
