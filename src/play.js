@@ -160,20 +160,14 @@ const addOverlayBoxesOpacityButton = () => {
       return
     }
 
-    const handler = () => {
-      if (!elTarget.style.opacity || Number(elTarget.style.opacity) > 0.8) {
-        elTarget.style.opacity = 0.8
-      } else {
-        elTarget.style.opacity = 1
-      }
-    }
+    const handler = () => elTarget.classList.toggle('betterAfreecaTransparent')
     const button = document.createElement('button')
     button.className = `betterAfreecaChangeOpacity ${addedByUsClass}`
     button.innerHTML = 'Opacity'
     button.addEventListener('click', handler)
     elButtonParent.appendChild(button)
   }
-  addOpacityButton('#emoticonBox', '#emoticonBox div.head h3')
+  addOpacityButton('#emoticonContainer', '#emoticonContainer div.head h3')
   addOpacityButton('#layerStarGiftNew', '#layerStarGiftNew div.title-area')
 }
 

@@ -16,3 +16,11 @@ img.emoticon {
   margin-left: 1em;
   color: #ccc;
 }
+
+div#emoticonContainer.on.betterAfreecaTransparent {
+  opacity: 0.8 !important;
+}
+
+div#layerStarGiftNew.betterAfreecaTransparent {
+  opacity: 0.8;
+}
