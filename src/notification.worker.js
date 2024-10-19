@@ -59,7 +59,6 @@ const checkNotifications = async () => {
       .map((d) => {
         if (
           d.read_flag === '1' ||
-          d.from_id === 'afnotice' ||
           d.seq <= latestSeq
         ) {
           return null
