@@ -6,3 +6,7 @@
   width: 26px;
   height: 26px;
 }
+
+img.emoticon {
+  box-sizing: content-box;
+}
