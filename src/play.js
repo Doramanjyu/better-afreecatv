@@ -71,23 +71,28 @@ const improveEmoticonResolution = async () => {
     },
   )
   const data = await resp.json()
-  // AfreecaTV uses both `//static...` and `https://static...` as URL.
-  // Support both patterns.
-  const emoticonBaseUrl = new URL(
-    data.img_path.startsWith('//') ? 'https:' + data.img_path : data.img_path,
-  )
-  const emoticonBasePath = emoticonBaseUrl.toString()
-  emoticonBaseUrl.protocol = ''
-  const emoticonBasePathNoScheme = emoticonBaseUrl.toString()
-
-  const emoticons = data.data.reduce((acc, v) => {
-    acc.set(emoticonBasePath + v.pc_img, emoticonBasePath + v.mobile_img)
-    acc.set(
-      emoticonBasePathNoScheme + v.pc_img,
-      emoticonBasePath + v.mobile_img,
+  const emoticons = new Map()
+  if (data?.img_path) {
+    // AfreecaTV uses both `//static...` and `https://static...` as URL.
+    // Support both patterns.
+    const emoticonBaseUrl = new URL(
+      data.img_path.startsWith('//') ? 'https:' + data.img_path : data.img_path,
     )
-    return acc
-  }, new Map())
+    const emoticonBasePath = emoticonBaseUrl.toString()
+    emoticonBaseUrl.protocol = ''
+    const emoticonBasePathNoScheme = emoticonBaseUrl.toString()
+
+    data.data.forEach((v) => {
+      emoticons.set(
+        emoticonBasePath + v.pc_img,
+        emoticonBasePath + v.mobile_img,
+      )
+      emoticons.set(
+        emoticonBasePathNoScheme + v.pc_img,
+        emoticonBasePath + v.mobile_img,
+      )
+    })
+  }
 
   const commonEmoticonUrlPattern = new RegExp(
     '^((https:)?//res.sooplive.co.kr/images/chat/emoticon)/small/(.*)$',
