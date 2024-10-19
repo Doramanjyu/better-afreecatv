@@ -36,7 +36,14 @@ const setNoTranslate = (el) => {
 }
 
 // Ignore chat forms from browser translation
-const notranslateAreaIds = ['auqa_voice_textarea', 'emoticonArea', 'write_area']
+const notranslateAreaIds = [
+  'auqa_voice_textarea',
+  'write_area',
+  // Emoticon box
+  'common_emoticon',
+  'recent',
+  'subscription_emoticon',
+]
 notranslateAreaIds.forEach((id) => {
   const el = document.getElementById(id)
   if (!el) {
