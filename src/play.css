@@ -11,3 +11,8 @@
 img.emoticon {
   box-sizing: content-box;
 }
+
+.betterAfreecaChangeOpacity {
+  margin-left: 1em;
+  color: #ccc;
+}

@@ -2,6 +2,7 @@ console.log('Better Afreeca')
 
 const scriptId = 'better_afreeca_embedded_script'
 const styleId = 'better_afreeca_embedded_style'
+const addedByUsClass = 'better_afreeca_added'
 
 const oldScript = document.getElementById(scriptId)
 if (oldScript) {
@@ -13,6 +14,10 @@ if (oldStyle) {
   console.debug('Removing old style')
   oldStyle.remove()
 }
+Array.from(document.getElementsByClassName(addedByUsClass)).forEach((e) => {
+  console.debug('Removing', e)
+  e.remove()
+})
 
 const runtime = chrome?.runtime || browser?.runtime
 
@@ -140,3 +145,36 @@ const improveEmoticonResolution = async () => {
 }
 
 improveEmoticonResolution()
+
+// Add button to change opacity of overlay boxes
+const addOverlayBoxesOpacityButton = () => {
+  const addOpacityButton = (target, buttonParent) => {
+    const elTarget = document.querySelector(target)
+    if (!elTarget) {
+      console.debug(`${target} not found`)
+      return
+    }
+    const elButtonParent = document.querySelector(buttonParent)
+    if (!elButtonParent) {
+      console.debug(`${buttonParent} not found`)
+      return
+    }
+
+    const handler = () => {
+      if (!elTarget.style.opacity || Number(elTarget.style.opacity) > 0.8) {
+        elTarget.style.opacity = 0.8
+      } else {
+        elTarget.style.opacity = 1
+      }
+    }
+    const button = document.createElement('button')
+    button.className = `betterAfreecaChangeOpacity ${addedByUsClass}`
+    button.innerHTML = 'Opacity'
+    button.addEventListener('click', handler)
+    elButtonParent.appendChild(button)
+  }
+  addOpacityButton('#emoticonBox', '#emoticonBox div.head h3')
+  addOpacityButton('#layerStarGiftNew', '#layerStarGiftNew div.title-area')
+}
+
+addOverlayBoxesOpacityButton()
