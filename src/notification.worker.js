@@ -5,6 +5,7 @@ const NotificationTypes = Object.freeze({
   LiveStart: 'F01',
   NewPost: 'F02',
   Reply: 'A04',
+  DirectMessage: 'A11',
 })
 
 const openSettingPage = () => {
@@ -87,7 +88,7 @@ const checkNotifications = async () => {
                 `${d.seq}/${d.from_id}/${d.log_info.common_no}/post`,
                 {
                   type: 'basic',
-                  title: `📝${d.from_nickname} has new post!`,
+                  title: `📝${d.from_nickname} has a new post!`,
                   message: d.head_text,
                   iconUrl: d.profile,
                 },
@@ -104,6 +105,22 @@ const checkNotifications = async () => {
                 {
                   type: 'basic',
                   title: `💬${d.from_nickname} replied!`,
+                  message: d.head_text,
+                  iconUrl: d.profile,
+                },
+              )
+            }
+          case NotificationTypes.DirectMessage:
+            latestSeq = d.seq
+            return () => {
+              console.log(
+                `notifying direct message ${d.seq} ${d.from_id} ${d.log_info.common_no}`,
+              )
+              return ubrowser.notifications.create(
+                `${d.seq}/${d.from_id}/${d.log_info.common_no}/dm`,
+                {
+                  type: 'basic',
+                  title: `📩${d.from_nickname} sent a message!`,
                   message: d.head_text,
                   iconUrl: d.profile,
                 },
@@ -149,6 +166,12 @@ const notificationClickHandler = (id) => {
     }
     case 'reply': {
       const url = `https://ch.sooplive.co.kr/${args[1]}/post/${args[2]}#reply_noti${args[4]}`
+      console.log(`opening ${url}`)
+      ubrowser.tabs.create({ url })
+      break
+    }
+    case 'dm': {
+      const url = `https://note.sooplive.co.kr/app/index.php?page=recv_view&no=${args[2]}`
       console.log(`opening ${url}`)
       ubrowser.tabs.create({ url })
       break
