@@ -2,11 +2,6 @@
   background-color: rgba(0,0,0,0.2);
 }
 
-div#chatting_area {
-  /* Fix stream info expand button overlapping emoticon area on portrait mode */
-  z-index: 101 !important;
-}
-
 .hiresEmoticon {
   width: 26px;
   height: 26px;
